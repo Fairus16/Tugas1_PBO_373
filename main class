@@ -1,0 +1,72 @@
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // Data kamar
+        Room standardRoom = new StandardRoom(); //Polymorphism, karena bisa menampung tipe kelas turunan room
+        Room suiteRoom = new SuiteRoom(); //Polymorphism
+
+        // Data tamu
+        System.out.print("Masukkan nama tamu: ");
+        String name = scanner.nextLine();
+        System.out.print("Masukkan nomor id tamu: ");
+        String idNumber = scanner.nextLine();
+        Guest guest = new Guest(name, idNumber); //Constructor overloading
+
+        // Pilih tipe kamar
+        System.out.print("Masukkan tipe kamar(1: Standar, 2: Suite): ");
+        int roomChoice = scanner.nextInt();
+        Room chosenRoom = (roomChoice == 1) ? standardRoom : suiteRoom; //Polymorphism
+
+        // Membuat reservasi
+        Reservation reservation = new Reservation(chosenRoom, guest); //Constructor overloading
+
+        // Daftar layanan tambahan
+        Service[] availableServices = { //Encapsulation dan Array objects
+                new Service("Sarapan, makan siang, dan makan malam", 100000), //Constructor Overloading
+                new Service("Akses gym", 50000),
+                new Service("Akses kolam renang", 75000),
+                new Service("Akses spa", 400000)
+        };
+
+        // Pilih layanan tambahan
+        boolean selectingServices = true;
+        while (selectingServices) {
+            System.out.println("\nAvailable Additional Services:");
+            for (int i = 0; i < availableServices.length; i++) {
+                System.out.println((i + 1) + ". " + availableServices[i]); //Polymorphism menggunakan toString()
+            }
+            System.out.println("0. Finish");
+
+            System.out.print("Choose a service (by number): ");
+            int serviceChoice = scanner.nextInt();
+
+            if (serviceChoice == 0) {
+                selectingServices = false;
+            } else if (serviceChoice > 0 && serviceChoice <= availableServices.length) {
+                reservation.addService(availableServices[serviceChoice - 1]); //Memanggil method dari Reservation
+                System.out.println("Added: " + availableServices[serviceChoice - 1].getServiceName());
+            } else {
+                System.out.println("Invalid choice. Try again.");
+            }
+        }
+
+        // Konfirmasi reservasi
+        reservation.confirmReservation();
+
+        // Tampilkan rincian reservasi
+        System.out.println("\n--- Detail Reservasi ---");
+        System.out.println("Nama tamu: " + guest.getName()); //Memanggil getter
+        System.out.println("Tipe kamar: " + reservation.getRoomType()); //Memanggil getter
+        System.out.println("Pelayanan yang dipesan:");
+        for (Service service : reservation.getServices()) { //Menggunakan getter dan polymorphism
+            System.out.println("- " + service); //Polymorphism pada toString
+        }
+        System.out.println("Status reservasi: " + reservation.getStatus()); //Memanggil getter
+        System.out.println("Total biaya: Rp." + reservation.calculateTotalCost()); //Polymorphism pada calculateTotalCost
+
+        scanner.close();
+    }
+}

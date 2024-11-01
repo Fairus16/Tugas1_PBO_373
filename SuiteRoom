@@ -1,0 +1,10 @@
+public class SuiteRoom extends Room { //Inheritence dari kelas Room
+    public SuiteRoom() { //Constructor Overloading
+        super("Suite", 3000000);  //Memanggil kontruktor kelas induk room
+    }
+
+    @Override
+    public double calculateRate() { //Overriding method dari kelas Room
+        return baseRate;
+    }
+}

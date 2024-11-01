@@ -1,0 +1,17 @@
+public class Guest {
+    private String name; //Encapsulation
+    private String idNumber; //Encapsulation
+
+    public Guest(String name, String idNumber) { //Constructor Overloading
+        this.name = name;
+        this.idNumber = idNumber;
+    }
+
+    public String getName() { //Getter
+        return name;
+    }
+
+    public String getIdNumber() { //Getter
+        return idNumber;
+    }
+}

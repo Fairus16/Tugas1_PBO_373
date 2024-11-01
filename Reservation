@@ -1,0 +1,44 @@
+import java.util.ArrayList;
+
+public class Reservation {
+    private Room room; //Encapsulation
+    private Guest guest; //Encapsulation
+    private ArrayList<Service> services; //Encapsulation
+    private String status; //Encapsulation
+
+    public Reservation(Room room, Guest guest) { //Constructor Overloading
+        this.room = room;
+        this.guest = guest;
+        this.services = new ArrayList<>();
+        this.status = "Pending";
+    }
+
+    public void addService(Service service) { //Method Overloading
+        services.add(service);
+    }
+
+    public double calculateTotalCost() { //Menggunakan Polymorphism saat menghitung biaya tambahan dengan tipe Service
+        double totalCost = room.calculateRate(); //Memanggil method calculaterate() sesuai tipe kamar
+        for (Service service : services) {
+            totalCost += service.getServiceCost();
+        }
+        return totalCost;
+    }
+
+    public void confirmReservation() { //Mengubah status dan menggunakan Setter dari Room
+        room.setAvailability(false); //Memanggil Setter
+        this.status = "Confirmed";
+    }
+
+    public String getStatus() { //Getter
+        return status;
+    }
+
+    public String getRoomType() { //Getter
+        return room.getRoomType();
+    }
+
+    public ArrayList<Service> getServices() { //Getter
+        return services;
+    }
+}
